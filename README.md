@@ -168,8 +168,9 @@ would like to stop at. This is the full statement you would want to include:
 import pdb; pdb.set_trace()
 ```
 
-The method [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) hard codes a breakpoint at the line you place
-it the command. Let's try it now by opening up the `main.py` file and adding the breakpoint on line 8:
+The method [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) hard codes a breakpoint
+where the method was called. Let's try it now by opening up the `main.py` file and adding the breakpoint
+on line 8:
 
 `file: main.py` 
 ```python
