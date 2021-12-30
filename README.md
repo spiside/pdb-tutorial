@@ -1,77 +1,53 @@
-# `pdb` Tutorial
+# `pdb` 教程
 
-The purpose of this tutorial is to teach you the basics of `pdb`, the **P**ython **D**e**B**ugger for [Python2](https://docs.python.org/2/library/pdb.html)
-and [Python3](https://docs.python.org/3/library/pdb.html).
-It will also include some helpful tricks to make your debugging sessions a lot less stressful.
-
---- 
-
-#### Other translations
-
-The tutorial is written in english, but there are other translations available with help
-from the Python community:
-
-- [Korean](https://github.com/mingrammer/pdb-tutorial)
-
-If you would like to see another other translation, or are interested in helping out with translating the tutorial,
-feel free to add to the [ongoing issues thread](https://github.com/spiside/pdb-tutorial/issues/9).
+这篇教程的目的是教你基本的 `pdb` 用法，它是 `Python2` 和 `Python3` 的调试器。这篇教程也会涉及到一些有用的小技巧，让你在调试程序的时候轻松很多。
 
 ---
 
-
-The tutorial works best if you use Python 2.7 or Python 3.4 and I will highlight the
-differences between the two versions if a `pdb`
-command differs. To check what version of python you're using, type the following in your terminal:
+这篇教程最好搭配 Python 2.7 或者 Python 3.4 使用，如果 `pdb` 在这两个 Python 版本上表现有所不同，我会突出显示他们的差异。要检查你现在使用的 Python 版本，你可以在你的终端上运行如下的命令：
 
 ```shell
 python --version
 ```
 
-Now that you know your version, let's get to it!
+现在你知道你的 Python 版本了，让我们开始吧！
+
+## 调试器的功能是什么？
+
+在真正开始学习调试代码之前，我们应该先简要地谈论一下调试代码和使用调试工具的重要性。对我来说，如下的三点展现了调试器的重要性。
+
+通过一个调试器，你可以做到
+
+* 检查一个正在运行的程序的状态
+* 在程序投入使用前测试它的代码
+* 追踪程序的执行逻辑
+
+通过使用一个调试器，你可以在你的程序的任意一个地方设置[程序断点](https://en.wikipedia.org/wiki/Breakpoint)来停止运行程序，也可以做到上面提到的三点。调试器是很强大的工具，和简单地使用 `print()` 语句相比，它们可以大大加快调试过程。
 
 
-## What is the purpose of a debugger?
 
-Before jumping into the code, we should have a brief discussion about the importance of debugging and using
-a debugging tool. For me, these three points highlight the importance of a debugger.
+对于你们当中经验丰富的程序员来说，你们也许会同意我的观点：在最好的程序员和懂得如何有效调试程序的程序员之间是存在相关性的。这里所说的有效调试程序指的是：能够诊断出代码的问题，然后可以用最小的力气解决它。使用一个调试器和学习如何正确使用一个调试器会帮助你成为强大的调试高手。为了能够做到在调试环境中轻松自如你得花上不少时间，不过本教程的目的就是让你在自己的代码里面使用 `pdb` 之前先经历这些！
 
-With a debugger, you can:
-* Explore the state of a running program
-* Test implementation code before applying it
-* Follow the program's execution logic
+## 玩游戏
 
-Using a debugger, you can set a [breakpoint](https://en.wikipedia.org/wiki/Breakpoint) at any point of
-your program to stop it and apply the three points above. Debuggers are very powerful tools and they
-can speed up the debugging process a lot faster than using simple `print()` statements everywhere.
-
-For those of you who are veteran programmers, you might agree with me that there is a
-correlation between the best programmers and the ones that know how to debug effectively. By debugging
-effectively, I mean being able to diagnose a problem and then treat the error with minimal difficulty. 
-Using a debugger and learning how to use it properly will help you become an effective debugger. It will
-take some time before you feel comfortable navigating around in a debugging environment but the purpose
-of this tutorial is to get your feet wet before you start using `pdb` in your own code base!
-
-
-## Playing the Game
-
-So we already talked about the purpose of a debugger and now it's time to see it in action. First, you
-should clone this repo if you haven't already done so. If you don't have `git` installed, I recommend using
-it (or some version of source control) and you can find out details on how to install `git` [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-Once you have `git` installed, clone the repo by entering the following in your terminal:
+我们已经讨论了调试器的功能，现在到了亲自看看它是如何工作的时候了。首先，如果你还没有克隆这个仓库的话要先克隆。如果你还没有安装 `git` 的话，我推荐你尝试安装并使用它（或者是其他的源代码工具），你可以参考[这里](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)来安装 `git`。在你安装好了 `git` 之后，在你的终端运行如下的命令来克隆仓库：
 
 ```shell
 git clone https://github.com/spiside/pdb-tutorial
 ```
 
-**NB**: If that didn't work for you, you should follow Github's [cloning tutorial](https://help.github.com/articles/cloning-a-repository/).
+**注意：**如果这个命令报错克隆失败的话，你应该看看 Github 的[克隆教程](https://help.github.com/articles/cloning-a-repository/)
 
-Now that you have the repo cloned, let's navigate to the root of the project and take a look at the instructions given:
+
+
+现在你克隆好了仓库，让我们来到项目的根目录并看看里面的说明文件：
 
 ```shell
 cd /path/to/pdb-tutorial
 ```
 
 `file: instructions.txt`
+
 ```
 Your boss has given you the following project to fix for a client. It's supposed to be a simple dice
 game where the object of the game is to correctly add up the values of the dice for 6 consecutive turns.
@@ -82,14 +58,13 @@ It's now up to you to fix the errors and finally make the game playable.
 To play the game you must run the main.py file.
 ```
 
-Seems easy enough! To begin, let's try playing the game to see what's wrong. To run the program, type the following in your
-terminal:
+这看起来很容易！首先，让我们尝试玩这个游戏并看看哪里出了问题。你可以在你的终端输入如下的命令来运行这个程序：
 
 ```shell
 python main.py
-``` 
+```
 
-You should see something like this:
+你应该会看到像这样的输出：
 
 ```
 Add the values of the dice
@@ -125,7 +100,7 @@ Round 1
 Sigh. What is your guess?: 
 ```
 
-Seems like the previous programmer had a sense of...humor? Nonetheless, let's enter 17 (since that is the total value of the dice).
+看起来之前的程序员似乎有点...幽默感？尽管如此，让我们来输入 17（因为 17 是骰子的和）。
 
 ```
 Sigh. What is your guess?: 17
@@ -136,8 +111,7 @@ Wins: 0 Loses 1
 Would you like to play again?[Y/n]: 
 ```
 
-Weird. It said the answer is 5 but that's clearly wrong... Alright, maybe the dice addition is wrong but let's play the game again to
-figure it out. Looks like the prompt to play again is `'Y'` so let's enter that now.
+奇怪。他说答案应该是 5，但显然不对...。好吧，也许骰子的加法是错误的，无论如何我们再玩一次游戏来弄清楚。看起来要再玩一次的命令是 `Y`，所以让我们输入 `Y`
 
 ```
 Would you like to play again?[Y/n]: Y
@@ -153,26 +127,22 @@ Traceback (most recent call last):
 dicegame.utils.UnnecessaryError: You actually called this function...
 ```
 
-Ok weird, there was an exception that was thrown even though we used what was supposed to be a valid input. I think it's safe to
-say that the program is broken so let's start the debugging process! 
+好吧，这很奇怪，即使我们输入了应该是有效的输入，程序仍然抛出了异常。我认为我们可以下结论说这个程序是有问题的，那么让我们开始调试程序吧！
 
+## PDB 101: `pdb` 介绍
 
-## PDB 101: Intro to `pdb`
-
-It's time to finally work with python's very own debugger `pdb`. The debugger is included in python's standard library and we
-use it the same way we would with any python library. First, we have to import the `pdb` module and then call one of its methods
-to add a debugging breakpoint in the program. The conventional way to do this is to add the import **and** call the method at the same line you
-would like to stop at. This is the full statement you would want to include:
+是时候到了使用 python 自带的调试器 `pdb` 的时候了。这个调试器包含在 python 的标准库中，我们就像使用任何一个 python 库一样来使用它。首先，我们应先加载 `pdb` 模块，然后调用它的方法在程序中设置用于调试的程序断点。传统的方法是把加载和调用放在你想要程序暂停运行的地方。这个是你会用到的完整声明语句：
 
 ```python
 import pdb; pdb.set_trace()
 ```
 
-The method [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) hard codes a breakpoint
-where the method was called. Let's try it now by opening up the `main.py` file and adding the breakpoint
-on line 8:
+[`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) 方法在被调用的地方设置了一个程序断点。让我们来打开 `main.py` 文件并在第 8 行添加程序断点：
+
+
 
 `file: main.py` 
+
 ```python
 from dicegame.runner import GameRunner
 
@@ -189,11 +159,12 @@ if __name__ == "__main__":
     main()
 ```
 
-Cool, now let's try to run `main.py` again and see what happens.
+看起来不错，现在让我们再次尝试运行 `main.py` 文件并看看会怎么样。
 
 ```shell
 python main.py
 ```
+
 ```
 Add the values of the dice
 It's really that easy
@@ -203,42 +174,31 @@ What are you doing with your life.
 (Pdb) 
 ```
 
-There we go! We are now in the middle of the running program and we can start poking around. I think the first issue we should
-solve is the proper summation of the dice values.
+很好，我们现在处于运行程序的中间，可以开始调试程序了。我认为第一个要解决的问题是骰子之间的加法到底是如何定义的。
 
-If you are familiar with Python's interpreter, a lot of that knowledge can be transferred to the `pdb` debugger. However, there will be
-a couple gotchas that we will get to in the advanced section. Regardless, let's learn a couple commands that will help us solve the
-addition issue.
+如果你很熟悉 Python 的解释器，里面有很多知识可以迁移到 `pdb` 调试器中来。但是，当我们学习到高阶部分的时候将会有一些问题。先不管这些，我们来学习一些会帮助我们解决骰子加法问题的命令。
+
+## 5 个会让你“说不出话来”的 `pdb` 命令
+
+下面是直接从 `pdb` 文档中摘录出来的命令，一旦你学会了使用他们，你就无法想象没有他们会是怎么样。
+
+1. `l(ist)` - 展示当前行附近的 11 行，或者是继续之前的展示。
+2. `s(tep)` - 执行当前行，会停在第一个可能停下的地方。
+3. `n(ext)` - 继续执行程序到当前函数的下一行或者是到它返回结果。
+4. `b(reak)` - 设置程序断点 (取决于提供的参数)。
+5. `r(eturn)` - 继续执行到当前函数返回结果。
+
+注意这些命令中的后面都用括号括了起来，这表示在 `pdb` 中使用这些命令的时候，括号中的部分是可选的，也就是说是可以省略的。这会节省你打字的时间，但是如果你有变量名是 `l` 或者是 `n` 的话会有大问题，他们会被认为是 `pdb` 的命令而不是变量。举例来说，如果在你的程序中有变量叫做 `c`，你想知道它的值，你如果直接在 `pdb` 里输入 `c` 的话，实际上你是在告诉调试器说要执行 `c(ontinue)` 指令，它会一直运行直到遇到程序断点！
 
 
-## The 5 `pdb` commands that will leave you "speechless"
 
-Taken directly from the `pdb` documentation, these are the five commands that, once you learn them, you won't know how you lived
-without them.
+**注意：**我和其他程序员们一样，不建议使用短的变量名，比如 `a`，`b`，`gme`等。这些短变量名没有含义还会让其他人在阅读你的代码的时候感到很困惑。我只是在这里向你们展示你们在 `pdb` 中使用短变量名的时候可能会遇到的问题。
 
-1. `l(ist)` - Displays 11 lines around the current line or continue the previous listing.
-2. `s(tep)` - Execute the current line, stop at the first possible occasion.
-3. `n(ext)` - Continue execution until the next line in the current function is reached or it returns.
-4. `b(reak)` - Set a breakpoint (depending on the argument provided).
-5. `r(eturn)` - Continue execution until the current function returns.
 
-Notice that there are brackets around the last part of every keyword. The brackets indicate that the rest of the word is _optional_ when
-using the command prompt for `pdb`. This saves typing but a major gotcha is if you have a variable name such as `l` or `n`, then the
-`pdb` command takes precedence. That is, say you have a variable named `c` in your program and you want to know the value of `c`. Well,
-if you type `c` in `pdb`, you will actually be issuing the `c(ontinue)` keyword which executes the program and only stops if it encounters
-a break point!
 
-**NB**: I, and many other programmers, discourage the use of short variable names such as `a`, `b`, `gme`, etc. These carry no meaning
-and will confuse other people reading your code. I'm only demonstrating the issues you may encounter with `pdb` in the presence of
-shortened variable names.
+**再次注意：**另外一个有用的命令是 `h(elp) - 不给参数的话，会输出可使用的所有命令。如果提供了命令作为参数，就会输出命令的帮助手册`。这篇教程接下来的部分，我会使用短命令，如果我用到了一个我没有介绍过的命令，我会解释它的功能是什么。那么，让我们开始学习第一个命令吧。
 
-**NNB**: Another helpful tool is the following:
-`h(elp) - Without argument, print the list of available commands. With a command as an argument, print help about that command.`
-
-For the rest of the tutorial, I will be using the shortened version of the commands and if I use a command that I have not introduced
-here, I will explain what it does. So, let's begin with the first one.
-
-### 1. l(ist) a.k.a. I'm too lazy to open the file containing the source code
+### 1. `l(ist)` 又叫做： 我懒得打开包含源代码的文件
 
 ```
 l(ist) [first [,last]]
@@ -247,17 +207,15 @@ l(ist) [first [,last]]
     With two arguments, list the given range; if the second argument is less than the first, it is a count.
 ```
 
-**NB**: The above description was generated by calling `help` on `list`. To get the same output, in the `pdb` REPL type `help l`.
+**注意：**上面的命令描述是调用 `help list` 生成的。如果要得到一样的输出，你可以在 `pdb` 中输入 `help l`。我们可以使用 `list` 命令来检查我们所在的行的源代码。`list` 命令的参数让你可以指定要查看的行的范围，这在你用来查看第三方库的时候很有用（往往代码会很长）。
 
-Using `list`, we can examine the source code of the current file we are in. The arguments for `list` lets you specify a given range
-of lines you wish to see which can be helpful if you are in some weird 3rd party package and you are trying to figure out why they
-can't get string encoding working _true story_.
 
-**NB**: In Python 3.2 and above, you can type `ll` (long list) which shows you source code for the current function or frame. I use
-this all the time instead of `l` since it's much better knowing which function you are in than an arbitrary 11 lines around your
-current position.
 
-Let's try using `l` now. In your already open `pdb` prompt, type in `l` and look at the output:
+**注意：**在大于等于 Python 3.2 的版本中，你可以通过输入 `ll`（更长的输出）来看当前函数或者是堆栈帧的源代码。我基本都是使用这个而不是 `l` 命令，因为它相比于展示当前位置附近的 11 行来说，你可以更直观知道你当前处在哪个函数里。
+
+
+
+现在让我们尝试使用 `l` 命令。在你已经打开的 `pdb` 调试窗口中，输入 `l` 并查看输出：
 
 ```
 (Pdb) l
@@ -272,9 +230,9 @@ Let's try using `l` now. In your already open `pdb` prompt, type in `l` and look
  12     if __name__ == "__main__":
  13         main()
 [EOF]
-``` 
+```
 
-If we want to see the whole file, we can call the list function with the range 1 to 13 like so:
+如果我们想看整个文件，我们可以给 list 命令加上范围参数（1～13），像这样：
 
 ```
 (Pdb) l 1, 13
@@ -293,11 +251,9 @@ If we want to see the whole file, we can call the list function with the range 1
  13         main()
 ```
 
-Unfortunately, we don't get that much information from this file alone but we do see that it is calling the `run()` method of the `GameRunner`
-class. At this point, you might be thinking, "Awesome, I'll just set a `pdb` in the run method in the `dicegame/runner.py` file !" That will
-work, but there's an even easier way using the `step` command we will discuss next.
+不幸的是，我们从这个文件中得不到什么信息，但我们可以看到它调用了 `GameRunner` 类的 `run()` 方法。此时，你可能会想，“哇哦，我要在 `dicegame/runner.py` 文件里面的 run 方法中插入 `pdb` 语句！“这个方法是可行的，但是更轻松的方式是使用我们之后会提到的 `step` 命令。
 
-### 2. `s(tep)` a.k.a let's see what this method does...
+### 2. `s(tep)` 又叫做： 让我们来看看这个方法做了什么...
 
 ```
 s(tep)
@@ -306,8 +262,11 @@ s(tep)
     function).
 ```
 
-Your current line of execution should still be on `:9` and you can tell the current line by looking at the `->` outputted by the `list` command. 
-Let's call the `step` command and see what happens.
+你的程序现在应该还停留在 `:9` 行，要知道当前在哪一行可以查看 `list` 命令输出的 `->` 箭头指向哪。
+
+
+
+让我们来调用 `step` 命令看看会发生什么。
 
 ```
 (Pdb) s
@@ -316,9 +275,9 @@ Let's call the `step` command and see what happens.
 -> @classmethod
 ```
 
-Nice! We're currently in the `runner.py` file on line 21 which we can tell from this line:
-`> /Users/Development/pdb-tutorial/dicegame/runner.py(21)run()`.
-The problem is, we don't have much context so run the `list` command to checkout the method.
+不错！我们目前在 `runner.py` 文件的第 21 行，这一点可以从 `> /Users/Development/pdb-tutorial/dicegame/runner.py(21)run()` 看出来。
+
+问题是，我们没有太多的上下文信息，所以让我们来运行 `list` 命令来检查这个方法。
 
 ```
 (Pdb) l
@@ -335,8 +294,7 @@ The problem is, we don't have much context so run the `list` command to checkout
  26             while True:
 ```
 
-Awesome! Now we have some more context on the `run()` method but we are currently on `:21`. Let's `step` in one more time so that we enter the method itself and
-then run the list command to see our current position.
+哇哦！现在我们有了 `run()` 方法的更多上下文信息。但我们现在还在 `:21` 行。让我们再次执行 `step` 命令来进入到这个方法内部，然后用 `list` 命令查看我们当前的位置。
 
 ```
 (Pdb) s
@@ -356,10 +314,9 @@ then run the list command to see our current position.
  30  
 ```
 
-As we can see, we are on a terribly named `c` variable that will cause us a major issue if we try to call it (remember the comment from earlier regarding the
-`c(ontinue)` command). We are just before the `while` loop so let's enter the loop and see what else we can uncover.
+正如我们所看到的，我们正处于一个糟糕的变量名 `c` 上，如果我们尝试调用它将会产生很大的问题（回忆之前我们关于 `c(ontinue)` 命令的讨论）。我们正处于 `while` 循环前，所以让我们来进入到循环里面看看我们能发现什么。
 
-### 3. `n(ext)` a.k.a I hope this current line doesn't throw an exception
+### 3. `n(ext)` 又叫做： 我希望当前的行不要抛出异常
 
 ```
 n(ext)
@@ -367,7 +324,11 @@ n(ext)
     is reached or it returns.
 ```
 
-From the current line, type the `n(ext)` command followed by `list` (notice a pattern) and let's observe what happens.
+在当前行输入 `n(ext)` 命令，然后输入 `list`（注意这个模式），然后让我们看看发生了什么。
+
+
+
+**译者注：**在我用的 Python 3.8.10 上，此时我停留在了 `runner = cls()` 这一行
 
 ```
 (Pdb) n
@@ -387,8 +348,11 @@ From the current line, type the `n(ext)` command followed by `list` (notice a pa
  31                 for die in runner.dice:
 ```
 
-Now our current line on the `while True` statement! We can keep calling `next` indefinitely until the program throws an exception or terminates. Call `next` 3 more
-times to get to the `for` loop and then follow up `next` with `list`.
+现在我们停在了 `while True` 语句！我们可以一直调用 `next` 命令直到程序抛出异常或者是结束运行。再调用 3 次 `next` 命令就来到了 `for` 语句，然后调用 `list` 命令展示当前行的附近行。
+
+
+
+**译者注：**因为之前直接跳到了 `runner = cls()` 这一行，所以在这里我只要调用 2 次 `next` 就到了 `for` 语句
 
 ```
 (Pdb) n
@@ -415,19 +379,18 @@ Round 1
  35                 guess = int(guess)
 ```
 
-At this current point, if you continue to type the `next` command you will then iterate through the `for` loop for the length of the `runner.dice`
-attribute. We can take a look at the length of the `runner.dice` by calling the `len()` function around it in the `pdb` REPL which should return 5.
+如果你继续输入 `next` 命令，你会遍历完这个 `for` 循环，遍历的长度等于 `runner.dice` 的长度。我们可以在 `pdb` 中用 `len` 方法来看看 `runner.dice` 的长度，应该会返回 5。
 
 ```
 (Pdb) len(runner.dice)
 5
 ```
 
-Since the length is _only_ 5 items, we could iterate through the loop by calling `next` 5 times, but let's say there were 50 items to iterate over, or even 10,000!
-A better option would be to set a break point and then `continue` to that break point instead.
+因为这个长度*只有* 5，我们可以调用 5 次 `next` 命令来走完这个循环，但如果长度是 50 甚至是 10000 呢！
 
+更好的方法应该是设置一个程序断点，然后调用 `continue` 命令一直运行到程序断点处。
 
-### 4. `b(reak)` a.k.a I don't want to type `n` anymore
+### 4. `b(reak)` 又叫做：我再也不想输入 `n` 命令了
 
 ```
 b(reak) [ ([filename:]lineno | function) [, condition] ]
@@ -445,9 +408,7 @@ b(reak) [ ([filename:]lineno | function) [, condition] ]
     sys.path; the .py suffix may be omitted.
 ```
 
-We're only going to pay attention to the first two paragraphs of `b(reak)`'s description in this tutorial. Like I mentioned in the previous section, we want
-to set a break point past the `for` loop so we can continue to navigate through the `run()` method. Let's stop on `:34` since this has the input function
-which will break and wait for a user input anyways. To do this, we can type `b 34` and then `continue` to the break point.
+在这篇教程中，我们只需要看 `b(reak)` 命令描述的前两段。就像我在前面的部分提到的，我们想要通过设置程序断点的方式来执行完 `for` 循环，然后接着看 `run()` 方法的其他部分。因为 `:34` 行有 `input` 函数，程序会暂停并等待用户输入，所以让我们停在 `:34` 行。为了做到这一点，我们可以输入 `b 34` 然后输入 `continue` 来运行到程序断点处。
 
 ```
 (Pdb) b 34
@@ -460,7 +421,7 @@ Breakpoint 1 at /Users/Development/pdb-tutorial/dicegame/runner.py(34)run()
 -> guess = input("Sigh. What is your guess?: ")
 ```
 
-We can also take a look at the break points that we have set by calling `break` without any arguments.
+我们也可以通过不带参数调用 `break` 命令来看看我们设置好的程序断点。
 
 ```
 (Pdb) b
@@ -469,18 +430,18 @@ Num Type         Disp Enb   Where
     breakpoint already hit 1 time
 ```
 
-To clear your break points, you can use the `cl(ear)` command followed by the breakpoint number which is found in the leftmost column of the above
-output. Let's clear the breakpoint now by calling the `clear` command followed by 1.
+如果要删除你的程序断点，你可以使用 `cl(ear)` 命令，参数是上面输出的程序断点行的最左边（也就是 1）。现在让我们调用参数为 1 的 `clear` 命令来删除刚才设置的程序断点。
 
-**NB**: You can also clear all the breakpoints if you don't provide any arguments to the `clear` command.
+
+
+**注意：**如果你没有提供任何参数给 `clear` 命令，那么就会清空所有的程序断点。
 
 ```
 (Pdb) cl 1
 Deleted breakpoint 1 at /Users/Development/pdb-tutorial/dicegame/runner.py:34
 ```
 
-From here we can call `next` and execute the `input()` function. Let's just type 10 for our guess and once we are back in the `pdb` REPL, call `list` so we can see
-the next few lines.
+现在我们可以调用 `next` 命令来执行 `input()` 函数。让我们猜测骰子和为 10 并输入我们的猜测，一旦我们回到 `pdb` 中，我们可以调用 `list` 命令来看看接下来的几行。
 
 ```
 (Pdb) n
@@ -501,11 +462,10 @@ Sigh. What is your guess?: 10
  40                     c += 1
 
 
-``` 
 
-Remember that we are trying to find out why our guess wasn't correct on our first playthrough. It seemed like there was an error with the `guess == runner.answer`
-equality condition. We should check to see what the `runner.answer()` method is doing in case there might be an error there. Call `next` and then let's call `step`
-to _step_ into the `runner.answer()` method.
+```
+
+记住我们是在尝试找出第一次玩游戏的时候我们猜测的骰子和不对的原因。这看起来似乎是 `guess == runner.answer` 这里的等于判断出了问题。我们应该仔细检查一下看看 `runner.answer()` 这个方法做了什么，以防万一可能会遇到错误。调用一次 `next` 命令然后调用 `step` 命令来*进入*到 `runner.answer()` 方法内部。
 
 ```
 (Pdb) s
@@ -526,18 +486,15 @@ to _step_ into the `runner.answer()` method.
  20  
 ```
 
-I think I found the issue! On line 18, it doesn't look like the `total` variable is adding up the values of the dice like we want it to. Let's see if we can fix that by
-checking whether a `die` has an attribute which would contain its value. To get to line 18, you can either set a break point or just call `next` until you
-hit the first iteration. Once you're on `:18`, let's call the `dir()` function on the `die` instance and check what methods and attributes it has.
+我想我找到了问题根源！在第 18 行，它在计算 `total` 的时候看起来不是我们想象的那种骰子的加法。让我们来检查一下 `die` 有没有什么属性等于骰子本身的值看能不能解决这个问题。如果要到第 18 行，你可以通过设置一个程序断点，也可以一直调用 `next` 命令直到你到了循环到第一次迭代。一旦你到了 `:18` 行，让我们对 `die` 实例调用一下 `dir()` 函数看看它有什么属性和方法。
 
 ```
 -> total += 1
 (Pdb) dir(die)
 ['__class__', '__delattr__', [...], 'create_dice', 'roll', 'show', 'value']
-``` 
+```
 
-There is a `value` attribute after all! Let's call that and see what returns (remember, this value will probably be different than mine). And just for fun,
-let's make sure it is equal to the value that the die is showing by calling the `show()` method as well.
+它有一个属性叫做 `value`！让我们调用一下它看看返回了什么（注意，你这里显示的值可能跟我的不同）。同时让我们也调用一下它的 `show()` 方法显示骰子图案，确保显示的结果和它的 `value` 值一样。
 
 ```
 (Pdb) die.value
@@ -546,22 +503,20 @@ let's make sure it is equal to the value that the die is showing by calling the 
 '---------\n|*      |\n|       |\n|      *|\n---------'
 ```
 
-**NB**: If you want the newline character `\n` to print as a newline, call `print()` with `die.show()` as its argument.
+**注意：**如果你想要换行符 `\n` 真的有换行的效果，你可以执行 `print(die.show())`。
 
-It looks like it works as expected and we're ready to fix the answer method. However, some of us may want to continue with the debugging process and catch all the
-errors in one go. Unfortunately, we are once again stuck in this for loop. You might think to set a break point at `:19` and then call `continue` but there is actually
-a better way in this case.
 
-### 5. `r(eturn)` a.k.a. I want to get out of this function
+
+这看起来一切正常，骰子的 `value` 值和 `show()` 方法输出的是一样的，我们准备修复 answer 方法。但是，我们中的一些人可能想要继续调试程序来一次性找出所有的程序错误。不幸的是，我们再一次卡在了 for 循环里，你可能想到了在第 `:19` 行设置一个程序断点然后调用 `continue` 命令，但实际上有更好的方法。
+
+### 5. `r(eturn)` 又叫做：我想退出这个函数
 
 ```
 r(eturn)
     Continue execution until the current function returns.
 ```
 
-The `return` is a great _power user_ command that let's you examine the final outcome of a function. While you could set a breakpoint at the return call, the
-`return` pdb command will help if there are multiple return statements in a single function since it only follows the path of execution for a single return. Let's
-call the `return` command and get to the end of the function.
+`return` 是一个*强大的用户命令*，让你可以直接检查函数的最后返回的结果。尽管你可以在调用 return 的地方设置一个程序断点，但如果一个函数里有多个 return 语句的话，还是在 pdb 里面使用 `return` 命令会好一些，因为它对一个 return 语句只会遵循一条执行路径。让我们调用一下 `return` 命令到函数的末尾。
 
 ```
 (Pdb) r
@@ -583,35 +538,31 @@ call the `return` command and get to the end of the function.
 (Pdb) 
 ```
 
-To check the value of the returned `total` variable, you can call `total` here or look at the final value in line below the `--Return--` output. Now, to return back
-to the `run()` method, call the `next` command and you'll be back in your happy place.
-
-At this point, you can exit the `pdb` debugger by calling `exit()` **OR** `CTRL+D` (same as the Python REPL). With these five commands, you should be able to figure
-out a couple other bugs and then follow along with a bit more advanced `pdb` examples.
+如果要检查返回的 `total` 变量的值，你可以在这里输入 `total` 或者直接看 `--Return--` 下面的语句（最右边）。现在，为了回到 `run()` 方法里，让我们调用 `next` 命令，就会回到原来的地方。
 
 
-## Advanced `pdb` topics
 
-Here are a couple advanced `pdb` commands that you can also use.
+此时，你可以通过调用 `exit()` 命令**或者**按下 `CTRL+D`（和在 Python REPL 环境中一样）。有了这 5 个命令，你应该能弄明白其他的一些 bug，然后可以进阶学习更高阶的 `pdb` 例子。
 
-### The `!` (bang) command
+## 高阶 `pdb` 
+
+这里有一些你可以使用的高阶的 `pdb` 命令。
+
+### `!` 命令
 
 ```
 !
   Execute the (one-line) statement in the context of the current stack frame.
 ```
 
-The bang command (`!`) lets `pdb` know that the following statement will be a Python command and not a `pdb` command. Where this is helpful is in the `run()` method
-with the `c` variable. Like I mentioned in the beginning of the tutorial, calling `c` in `pdb` will issue the `continue` command. Navigating in your `pdb` REPL, stop
-at `:26` in the `runner.py` file and from that point you can prefix `c` with the `!` command and see what happens. 
+`! `命令是在告诉 `pdb` 接下来的语句是 Python 命令而不是 `pdb` 命令。在带有变量名为 `c` 的 `run()` 方法中这很有用。就像我在教程一开始说的，直接在 `pdb` 里面输入 `c` 会被认为是要执行 `continue` 指令。进入 `pdb` 调试模式，停在 `runner.py` 的 `:26` 行，然后可以运行 `!c` 看看会发生什么。
 
 ```
 (Pdb) !c
 0
 ```
 
-We get the intended result, since `:25` assigned `c = 0`!
-
+我们得到了预料中的值，因为在 `:25` 行执行了 `c = 0`！
 
 ### `pdb` Post Mortem
 
@@ -624,11 +575,13 @@ pdb.pm()
     Enter post-mortem debugging of the traceback found in sys.last_traceback. 
 ```
 
-While both methods may look the same, `post_mortem() and pm()` differ by the traceback they are given. I commonly use `post_mortem()` in the `except` block.
-However, we will cover the `pm()` method since I find it to be a bit more powerful. Let's try and see how this works in practice.
+尽管这两个方法可能看上去一样，但是 `post_mortem()` 和 `pm()` 产生的异常信息轨迹不一样。我通常在 `except` 的代码块里面使用 `post_mortem()`。
 
-Open up the python REPL by typing `python` in your shell in the root of this project. From there, let's import the `main` method from the `main` module and import `pdb`
-as well. Play the game until the we get the exception after trying to type `Y` to continue the game.
+但是，我也会谈到 `pm()`，因为我发现它更强大。让我们来尝试这个方法并看看在实践中它是怎么工作的。
+
+
+
+先打开终端并进入到项目的根目录下，然后输入 `python` 进 python REPL 交互模式。然后，让我们从 `main` 模块里面载入 `main` 方法，同时要载入 `pdb`。接下来玩游戏直到我们在尝试输入 `Y` 继续游戏的时候抛出异常。
 
 ```
 >>> import pdb
@@ -648,7 +601,7 @@ Traceback (most recent call last):
 dicegame.utils.UnnecessaryError: You actually called this function...
 ```
 
-Now, let's call the `pm()` method from the `pdb` module and see what happens.
+现在，让我们从 `pdb` 模块中调用 `pm()` 方法看看会发生什么。
 
 ```
 >>> pdb.pm()
@@ -657,14 +610,13 @@ Now, let's call the `pm()` method from the `pdb` module and see what happens.
 (Pdb) 
 ```
 
-Look at that! We recover from the point where the last exception was thrown and are placed in the `pdb` prompt. From here, we can examine the state the program was in
-before it crashed which will help you in your investigation.
-
-**NB**: You can also start the `main.py` script using `python -m pdb main.py` and `continue` until an exception is thrown. Python will automatically enter `post_mortem`
-mode at the uncaught exception.
+看看！在 `pdb` 环境中我们停在了最后一个抛出异常的地方的前面。在这里我们可以在程序出错之前检查程序的状态。
 
 
-## The End
 
-Congrats on making it to the end and thank you for following along in this tutorial! If you have any comments, critiques, or additional advanced examples, I'm open to pull requests.
+**注意：**你也可以使用 `python -m pdb main.py` 来启动 `main.py` 脚本，然后输入 `continue` 运行程序直到抛出异常，Python 会在没有捕获的异常上自动进入 `post_mortem` 模式。
+
+## 写在最后
+
+恭喜你坚持到了最后，谢谢你一路学习了这篇教程！如果你有任何意见、批评或者额外的高阶例子想提供，欢迎你提交 pull request。
 
