@@ -12,6 +12,7 @@ The tutorial is written in english, but there are other translations available w
 from the Python community:
 
 - [Korean](https://github.com/mingrammer/pdb-tutorial)
+- [Chinese](https://github.com/MartinLwx/pdb-tutorial)
 
 If you would like to see another other translation, or are interested in helping out with translating the tutorial,
 feel free to add to the [ongoing issues thread](https://github.com/spiside/pdb-tutorial/issues/9).
