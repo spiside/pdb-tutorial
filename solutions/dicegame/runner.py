@@ -37,7 +37,6 @@ class GameRunner:
                 print("Congrats, you can add like a 5 year old...")
                 runner.wins += 1
                 count += 1
-                runner.consecutive_wins += 1
             else:
                 print("Sorry that's wrong")
                 print("The answer is: {}".format(runner.answer))
