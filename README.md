@@ -623,7 +623,7 @@ commands [bpnumber]
         Specify a list of commands for breakpoint number bpnumber.
 ```
 
-`commands` will run Python code or pdb commands that you specified whenever the stated breakpoint number is hit. Once you start the `commands` block, the prompt changes to (com). The code/commands you write here functions as if you had typed them at the (Pdb) prompt after getting to that breakpoint. Writing `end` will terminate the command and the prompt changes back to `(pdb)` from `(com)`. I have found this of great use when I need to monitor certain variables inside of a loop as I don't need to print the values of the variables repeatedly. Let's see an example. Make sure to be in the root of the project in your terminal and type the following:
+`commands` will run python code or pdb commands that you specified whenever the stated breakpoint number is hit. Once you start the `commands` block, the prompt changes to `(com)`. The code/commands you write here function as if you had typed them at the `(Pdb)` prompt after getting to that breakpoint. Writing `end` will terminate the command and the prompt changes back to `(Pdb)` from `(com)`. I have found this of great use when I need to monitor certain variables inside of a loop as I don't need to print the values of the variables repeatedly. Let's see an example. Make sure to be at the root of the project in your terminal and type the following:
 
 ```
 python -m pdb main.py
@@ -631,7 +631,7 @@ python -m pdb main.py
 
 Reach line `:8` and `s(tep)` into the `run()` method of the GameRunner class. Then, set up a breakpoint at `:17`.
 ```
-> /Users/Development/pdb-tutorial/main.py(9)main()
+> /Users/Development/pdb-tutorial/main.py(8)main()
 -> GameRunner.run()  #This is line 8 in main.py
 (Pdb) s      
 --Call--
@@ -646,9 +646,8 @@ This sets up the breakpoint, which has been given the number `4`, at the start o
 (Pdb) commands 4
 (com) print(f"The total value as of now is {total}")
 (com) end
-
 ```
-We have now set up `commands` for breakpoint number 4 which will execute when we reach this breakpoint. Let us `c(ontinue` and reach this breakpoint.  
+We have now set up `commands` for breakpoint number 4 which will execute when we reach this breakpoint. Let us `c(ontinue)` and reach this breakpoint.  
 
 ```
 (Pdb) c
