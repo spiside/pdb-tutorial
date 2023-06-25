@@ -612,6 +612,13 @@ The bang command (`!`) lets `pdb` know that the following statement will be a Py
 with the `c` variable. Like I mentioned in the beginning of the tutorial, calling `c` in `pdb` will issue the `continue` command. Navigating in your `pdb` REPL, stop
 at `:26` in the `runner.py` file and from that point you can prefix `c` with the `!` command and see what happens. 
 
+```
+ (Pdb) !c
+ 0
+```
+
+We get the intended result, since `:25` assigned `c = 0`!
+
 ### The `commands` command
 
 ```
