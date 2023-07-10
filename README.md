@@ -370,6 +370,8 @@ n(ext)
 
 From the current line, type the `n(ext)` command followed by `list` (notice a pattern) and let's observe what happens.
 
+**NB**: "next" allows you to skip over function calls while "step" allows you to step into a function call and pause at the first line of the called function.
+
 ```
 (Pdb) n
 > /Users/Development/pdb-tutorial/dicegame/runner.py(27)run()
