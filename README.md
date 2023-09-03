@@ -75,7 +75,7 @@ cd /path/to/pdb-tutorial
 `file: instructions.txt`
 ```
 Your boss has given you the following project to fix for a client. It's supposed to be a simple dice
-game where the object of the game is to correctly add up the values of the dice for 6 consecutive turns.
+game where the objective of the game is to correctly add up the values of the dice for 6 consecutive turns.
 
 The issue is that a former programmer worked on it and didn't know how to debug effectively.
 It's now up to you to fix the errors and finally make the game playable.
@@ -169,8 +169,14 @@ would like to stop at. This is the full statement you would want to include:
 import pdb; pdb.set_trace()
 ```
 
-The method [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) hard codes a breakpoint
-where the method was called. Let's try it now by opening up the `main.py` file and adding the breakpoint
+Starting from version 3.7: The built-in function `breakpoint()` can be used instead of using `import pdb; pdb.set_trace()`
+
+```python
+breakpoint()
+```
+
+The methods [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) and [`breakpoint()`](https://docs.python.org/3/library/functions.html#breakpoint) hard code a breakpoint
+where the method was called. Let's use the `set_trace()` method for this tutorial since it is supported in all python versions. Let's try it now by opening up the `main.py` file and adding the breakpoint
 on line 8:
 
 `file: main.py` 
@@ -609,12 +615,69 @@ with the `c` variable. Like I mentioned in the beginning of the tutorial, callin
 at `:26` in the `runner.py` file and from that point you can prefix `c` with the `!` command and see what happens. 
 
 ```
-(Pdb) !c
-0
+ (Pdb) !c
+ 0
 ```
 
 We get the intended result, since `:25` assigned `c = 0`!
 
+### The `commands` command
+
+```
+commands [bpnumber]
+        (com) ...
+        (com) end
+        (Pdb)
+
+        Specify a list of commands for breakpoint number bpnumber.
+```
+
+`commands` will run python code or pdb commands that you specified whenever the stated breakpoint number is hit. Once you start the `commands` block, the prompt changes to `(com)`. The code/commands you write here function as if you had typed them at the `(Pdb)` prompt after getting to that breakpoint. Writing `end` will terminate the command and the prompt changes back to `(Pdb)` from `(com)`. I have found this of great use when I need to monitor certain variables inside of a loop as I don't need to print the values of the variables repeatedly. Let's see an example. Make sure to be at the root of the project in your terminal and type the following:
+
+```
+python -m pdb main.py
+```
+
+Reach line `:8` and `s(tep)` into the `run()` method of the GameRunner class. Then, set up a breakpoint at `:17`.
+```
+> /Users/Development/pdb-tutorial/main.py(8)main()
+-> GameRunner.run()  #This is line 8 in main.py
+(Pdb) s      
+--Call--
+> /Users/Development/pdb-tutorial/dicegame/runner.py(21)run()
+-> @classmethod 
+(Pdb) b 17
+Breakpoint 4 at /Users/Development/pdb-tutorial/dicegame/runner.py:17
+```
+This sets up the breakpoint, which has been given the number `4`, at the start of the loop inside the `answer()` method which is used to calculate the total values of the dice. Now, let's us use `commands` to print the value of the variable `total` when we hit this breakpoint. 
+
+```
+(Pdb) commands 4
+(com) print(f"The total value as of now is {total}")
+(com) end
+```
+We have now set up `commands` for breakpoint number 4 which will execute when we reach this breakpoint. Let us `c(ontinue)` and reach this breakpoint.  
+
+```
+(Pdb) c
+[...] # You will have to guess a number
+The total value as of now is 0
+> /Users/Development/pdb-tutorial/dicegame/runner.py(17)answer()
+-> for die in self.dice:
+(Pdb)
+```
+
+We see that out print statement executed upon reaching this breakpoint. Let's `c(ontinue)` again and see what happens.
+
+```
+(Pdb) c
+[...] 
+The total value as of now is 1
+> /Users/Development/pdb-tutorial/dicegame/runner.py(17)answer()
+-> for die in self.dice:
+(Pdb)
+```
+The `commands` command executes upon reaching the breakpoint again. You can see how this might be useful especially during loops.
 
 ### `pdb` Post Mortem
 
