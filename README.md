@@ -1,21 +1,21 @@
 # `pdb` Tutorial
 
-The purpose of this tutorial is to teach you the basics of `pdb`, the **P**ython **D**e**B**ugger for [Python2](https://docs.python.org/2/library/pdb.html)
-and [Python3](https://docs.python.org/3/library/pdb.html).
+The purpose of this tutorial is to teach you the basics of `pdb`, the **P**ython **D**e**B**ugger for [Python 2](https://docs.python.org/2/library/pdb.html)
+and [Python 3](https://docs.python.org/3/library/pdb.html).
 It will also include some helpful tricks to make your debugging sessions a lot less stressful.
 
 --- 
 
 #### Other translations
 
-The tutorial is written in english, but there are other translations available with help
+The tutorial is written in English, but there are other translations available with help
 from the Python community:
 
 - [Korean](https://github.com/mingrammer/pdb-tutorial)
 - [Chinese](https://github.com/MartinLwx/pdb-tutorial)
 - [Russian](https://github.com/0xfadeef/pdb-tutorial)
 
-If you would like to see another other translation, or are interested in helping out with translating the tutorial,
+If you would like to see another translation, or are interested in helping out with translating the tutorial,
 feel free to add to the [ongoing issues thread](https://github.com/spiside/pdb-tutorial/issues/9).
 
 ---
@@ -23,7 +23,7 @@ feel free to add to the [ongoing issues thread](https://github.com/spiside/pdb-t
 
 The tutorial works best if you use Python 2.7 or Python 3.4 and I will highlight the
 differences between the two versions if a `pdb`
-command differs. To check what version of python you're using, type the following in your terminal:
+command differs. To check what version of Python you're using, type the following in your terminal:
 
 ```shell
 python --version
@@ -44,28 +44,28 @@ With a debugger, you can:
 
 Using a debugger, you can set a [breakpoint](https://en.wikipedia.org/wiki/Breakpoint) at any point of
 your program to stop it and apply the three points above. Debuggers are very powerful tools and they
-can speed up the debugging process a lot faster than using simple `print()` statements everywhere.
+can speed up the debugging process a lot compared to only using simple `print()` statements everywhere.
 
 For those of you who are veteran programmers, you might agree with me that there is a
 correlation between the best programmers and the ones that know how to debug effectively. By debugging
 effectively, I mean being able to diagnose a problem and then treat the error with minimal difficulty. 
 Using a debugger and learning how to use it properly will help you become an effective debugger. It will
 take some time before you feel comfortable navigating around in a debugging environment but the purpose
-of this tutorial is to get your feet wet before you start using `pdb` in your own code base!
+of this tutorial is to get your feet wet before you start using `pdb` in your own codebase!
 
 
 ## Playing the Game
 
 So we already talked about the purpose of a debugger and now it's time to see it in action. First, you
-should clone this repo if you haven't already done so. If you don't have `git` installed, I recommend using
-it (or some version of source control) and you can find out details on how to install `git` [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+should clone this repo if you haven't already done so. If you don't have `git` installed, I recommend installing
+it (or some type of source control) and you can find out details on how to install `git` [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 Once you have `git` installed, clone the repo by entering the following in your terminal:
 
 ```shell
 git clone https://github.com/spiside/pdb-tutorial
 ```
 
-**NB**: If that didn't work for you, you should follow Github's [cloning tutorial](https://help.github.com/articles/cloning-a-repository/).
+**NB**: If that didn't work for you, you should follow GitHub's [cloning tutorial](https://help.github.com/articles/cloning-a-repository/).
 
 Now that you have the repo cloned, let's navigate to the root of the project and take a look at the instructions given:
 
@@ -127,7 +127,7 @@ Round 1
 Sigh. What is your guess?: 
 ```
 
-Seems like the previous programmer had a sense of...humor? Nonetheless, let's enter 17 (since that is the total value of the dice).
+Seems like the previous programmer had a sense of ... humor? Nonetheless, let's enter 17 (since that is the total value of the dice).
 
 ```
 Sigh. What is your guess?: 17
@@ -138,7 +138,7 @@ Wins: 0 Loses 1
 Would you like to play again?[Y/n]: 
 ```
 
-Weird. It said the answer is 5 but that's clearly wrong... Alright, maybe the dice addition is wrong but let's play the game again to
+Weird. It said the answer is 5 but that's clearly wrong ... Alright, maybe the dice addition is wrong but let's play the game again to
 figure it out. Looks like the prompt to play again is `'Y'` so let's enter that now.
 
 ```
@@ -161,8 +161,8 @@ say that the program is broken so let's start the debugging process!
 
 ## PDB 101: Intro to `pdb`
 
-It's time to finally work with python's very own debugger `pdb`. The debugger is included in python's standard library and we
-use it the same way we would with any python library. First, we have to import the `pdb` module and then call one of its methods
+It's time to finally work with Python's very own debugger: `pdb`. The debugger is included in Python's standard library and we
+use it the same way we would with any Python library. First, we have to import the `pdb` module and then call one of its methods
 to add a debugging breakpoint in the program. The conventional way to do this is to add the import **and** call the method at the same line you
 would like to stop at. This is the full statement you would want to include:
 
@@ -177,7 +177,7 @@ breakpoint()
 ```
 
 The methods [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_trace) and [`breakpoint()`](https://docs.python.org/3/library/functions.html#breakpoint) hard code a breakpoint
-where the method was called. Let's use the `set_trace()` method for this tutorial since it is supported in all python versions. Let's try it now by opening up the `main.py` file and adding the breakpoint
+where the method was called. Let's use the `set_trace()` method for this tutorial since it is supported in all Python versions. Let's try it now by opening up the `main.py` file and adding the breakpoint
 on line 8:
 
 `file: main.py` 
@@ -189,7 +189,7 @@ def main():
     print("Add the values of the dice")
     print("It's really that easy")
     print("What are you doing with your life.")
-    import pdb; pdb.set_trace() # add pdb here
+    import pdb; pdb.set_trace()  # Add pdb here.
     GameRunner.run()
 
 
@@ -211,11 +211,15 @@ What are you doing with your life.
 (Pdb) 
 ```
 
+**NB**: In Python 3.13 and above you may see that the program was paused on the line of the `pdb.set_trace()` command itself (line 8),
+and not on the line just following it (line 9 of `GameRunner.run()` as above). No worries, you can just proceed in a very similar way
+as explained below (with just an extra `n(ext)` command).
+
 There we go! We are now in the middle of the running program and we can start poking around. I think the first issue we should
 solve is the proper summation of the dice values.
 
 If you are familiar with Python's interpreter, a lot of that knowledge can be transferred to the `pdb` debugger. However, there will be
-a couple gotchas that we will get to in the advanced section. Regardless, let's learn a couple commands that will help us solve the
+a couple of gotchas that we will get to in the advanced section. Regardless, let's learn a couple of commands that will help us solve the
 addition issue.
 
 
@@ -225,7 +229,7 @@ Taken directly from the `pdb` documentation, these are the five commands that, o
 without them.
 
 1. `l(ist)` - Displays 11 lines around the current line or continue the previous listing.
-2. `s(tep)` - Execute the current line, stop at the first possible occasion.
+2. `s(tep)` - Execute the current line, stop at the first possible occasion (stepping inside a function call if present).
 3. `n(ext)` - Continue execution until the next line in the current function is reached or it returns.
 4. `b(reak)` - Set a breakpoint (depending on the argument provided).
 5. `r(eturn)` - Continue execution until the current function returns.
@@ -234,7 +238,7 @@ Notice that there are brackets around the last part of every keyword. The bracke
 using the command prompt for `pdb`. This saves typing but a major gotcha is if you have a variable name such as `l` or `n`, then the
 `pdb` command takes precedence. That is, say you have a variable named `c` in your program and you want to know the value of `c`. Well,
 if you type `c` in `pdb`, you will actually be issuing the `c(ontinue)` keyword which executes the program and only stops if it encounters
-a break point!
+a breakpoint!
 
 **NB**: I, and many other programmers, discourage the use of short variable names such as `a`, `b`, `gme`, etc. These carry no meaning
 and will confuse other people reading your code. I'm only demonstrating the issues you may encounter with `pdb` in the presence of
@@ -259,7 +263,7 @@ l(ist) [first [,last]]
 
 Using `list`, we can examine the source code of the current file we are in. The arguments for `list` lets you specify a given range
 of lines you wish to see which can be helpful if you are in some weird 3rd party package and you are trying to figure out why they
-can't get string encoding working _true story_.
+can't get string encoding working (_true story_).
 
 **NB**: In Python 3.2 and above, you can type `ll` (long list) which shows you source code for the current function or frame. I use
 this all the time instead of `l` since it's much better knowing which function you are in than an arbitrary 11 lines around your
@@ -302,10 +306,10 @@ If we want to see the whole file, we can call the list function with the range 1
 ```
 
 Unfortunately, we don't get that much information from this file alone but we do see that it is calling the `run()` method of the `GameRunner`
-class. At this point, you might be thinking, "Awesome, I'll just set a `pdb` in the run method in the `dicegame/runner.py` file !" That will
+class. At this point, you might be thinking, "Awesome, I'll just set a `pdb` in the run method in the `dicegame/runner.py` file!" That will
 work, but there's an even easier way using the `step` command we will discuss next.
 
-### 2. `s(tep)` a.k.a let's see what this method does...
+### 2. `s(tep)` a.k.a. let's see what this method does ...
 
 ```
 s(tep)
@@ -326,7 +330,7 @@ Let's call the `step` command and see what happens.
 
 Nice! We're currently in the `runner.py` file on line 21 which we can tell from this line:
 `> /Users/Development/pdb-tutorial/dicegame/runner.py(21)run()`.
-The problem is, we don't have much context so run the `list` command to checkout the method.
+The problem is, we don't have much context so run the `list` command to check out the method.
 
 ```
 (Pdb) l
@@ -367,7 +371,7 @@ then run the list command to see our current position.
 As we can see, we are on a terribly named `c` variable that will cause us a major issue if we try to call it (remember the comment from earlier regarding the
 `c(ontinue)` command). We are just before the `while` loop so let's enter the loop and see what else we can uncover.
 
-### 3. `n(ext)` a.k.a I hope this current line doesn't throw an exception
+### 3. `n(ext)` a.k.a. I hope this current line doesn't throw an exception
 
 ```
 n(ext)
@@ -397,7 +401,7 @@ From the current line, type the `n(ext)` command followed by `list` (notice a pa
  31                 for die in runner.dice:
 ```
 
-Now our current line on the `while True` statement! We can keep calling `next` indefinitely until the program throws an exception or terminates. Call `next` 3 more
+Now our current line is on the `while True` statement! We can keep calling `next` indefinitely until the program throws an exception or terminates. Call `next` 3 more
 times to get to the `for` loop and then follow up `next` with `list`.
 
 ```
@@ -434,10 +438,10 @@ attribute. We can take a look at the length of the `runner.dice` by calling the 
 ```
 
 Since the length is _only_ 5 items, we could iterate through the loop by calling `next` 5 times, but let's say there were 50 items to iterate over, or even 10,000!
-A better option would be to set a break point and then `continue` to that break point instead.
+A better option would be to set a breakpoint and then `continue` to that breakpoint instead.
 
 
-### 4. `b(reak)` a.k.a I don't want to type `n` anymore
+### 4. `b(reak)` a.k.a. I don't want to type `n` anymore
 
 ```
 b(reak) [ ([filename:]lineno | function) [, condition] ]
@@ -456,21 +460,21 @@ b(reak) [ ([filename:]lineno | function) [, condition] ]
 ```
 
 We're only going to pay attention to the first two paragraphs of `b(reak)`'s description in this tutorial. Like I mentioned in the previous section, we want
-to set a break point past the `for` loop so we can continue to navigate through the `run()` method. Let's stop on `:34` since this has the input function
-which will break and wait for a user input anyways. To do this, we can type `b 34` and then `continue` to the break point.
+to set a breakpoint past the `for` loop so we can continue to navigate through the `run()` method. Let's stop on `:34` since this has the input function
+which will break and wait for a user input anyways. To do this, we can type `b 34` and then `continue` to the breakpoint.
 
 ```
 (Pdb) b 34
 Breakpoint 1 at /Users/Development/pdb-tutorial/dicegame/runner.py(34)run()
 (Pdb) c
 
-[...] # prints some dice
+[...]  # Prints some dice.
 
 > /Users/Development/pdb-tutorial/dicegame/runner.py(34)run()
 -> guess = input("Sigh. What is your guess?: ")
 ```
 
-We can also take a look at the break points that we have set by calling `break` without any arguments.
+We can also take a look at the breakpoints that we have set by calling `break` without any arguments.
 
 ```
 (Pdb) b
@@ -479,7 +483,7 @@ Num Type         Disp Enb   Where
     breakpoint already hit 1 time
 ```
 
-To clear your break points, you can use the `cl(ear)` command followed by the breakpoint number which is found in the leftmost column of the above
+To clear your breakpoints, you can use the `cl(ear)` command followed by the breakpoint number which is found in the leftmost column of the above
 output. Let's clear the breakpoint now by calling the `clear` command followed by 1.
 
 **NB**: You can also clear all the breakpoints if you don't provide any arguments to the `clear` command.
@@ -520,7 +524,7 @@ to _step_ into the `runner.answer()` method.
 ```
 (Pdb) s
 --Call--
-> /Users/spiro/Development/mobify/engineering-meeting/pdb-tutorial/dicegame/runner.py(15)answer()
+> /Users/Development/pdb-tutorial/dicegame/runner.py(15)answer()
 -> def answer(self):
 (Pdb) l
  10         def reset(self):
@@ -537,7 +541,7 @@ to _step_ into the `runner.answer()` method.
 ```
 
 I think I found the issue! On line 18, it doesn't look like the `total` variable is adding up the values of the dice like we want it to. Let's see if we can fix that by
-checking whether a `die` has an attribute which would contain its value. To get to line 18, you can either set a break point or just call `next` until you
+checking whether a `die` has an attribute which would contain its value. To get to line 18, you can either set a breakpoint or just call `next` until you
 hit the first iteration. Once you're on `:18`, let's call the `dir()` function on the `die` instance and check what methods and attributes it has.
 
 ```
@@ -546,7 +550,7 @@ hit the first iteration. Once you're on `:18`, let's call the `dir()` function o
 ['__class__', '__delattr__', [...], 'create_dice', 'roll', 'show', 'value']
 ``` 
 
-There is a `value` attribute after all! Let's call that and see what returns (remember, this value will probably be different than mine). And just for fun,
+There is a `value` attribute after all! Let's call that and see what it returns (remember, this value will probably be different than mine). And just for fun,
 let's make sure it is equal to the value that the die is showing by calling the `show()` method as well.
 
 ```
@@ -559,7 +563,7 @@ let's make sure it is equal to the value that the die is showing by calling the 
 **NB**: If you want the newline character `\n` to print as a newline, call `print()` with `die.show()` as its argument.
 
 It looks like it works as expected and we're ready to fix the answer method. However, some of us may want to continue with the debugging process and catch all the
-errors in one go. Unfortunately, we are once again stuck in this for loop. You might think to set a break point at `:19` and then call `continue` but there is actually
+errors in one go. Unfortunately, we are once again stuck in this for loop. You might think to set a breakpoint at `:19` and then call `continue` but there is actually
 a better way in this case.
 
 ### 5. `r(eturn)` a.k.a. I want to get out of this function
@@ -569,7 +573,7 @@ r(eturn)
     Continue execution until the current function returns.
 ```
 
-The `return` is a great _power user_ command that let's you examine the final outcome of a function. While you could set a breakpoint at the return call, the
+The `return` is a great _power user_ command that lets you examine the final outcome of a function. While you could set a breakpoint at the return call, the
 `return` pdb command will help if there are multiple return statements in a single function since it only follows the path of execution for a single return. Let's
 call the `return` command and get to the end of the function.
 
@@ -633,7 +637,7 @@ commands [bpnumber]
         Specify a list of commands for breakpoint number bpnumber.
 ```
 
-`commands` will run python code or pdb commands that you specified whenever the stated breakpoint number is hit. Once you start the `commands` block, the prompt changes to `(com)`. The code/commands you write here function as if you had typed them at the `(Pdb)` prompt after getting to that breakpoint. Writing `end` will terminate the command and the prompt changes back to `(Pdb)` from `(com)`. I have found this of great use when I need to monitor certain variables inside of a loop as I don't need to print the values of the variables repeatedly. Let's see an example. Make sure to be at the root of the project in your terminal and type the following:
+`commands` will run Python code or pdb commands that you specified whenever the stated breakpoint number is hit. Once you start the `commands` block, the prompt changes to `(com)`. The code/commands you write here function as if you had typed them at the `(Pdb)` prompt after getting to that breakpoint. Writing `end` will terminate the command and the prompt changes back to `(Pdb)` from `(com)`. I have found this of great use when I need to monitor certain variables inside of a loop as I don't need to print the values of the variables repeatedly. Let's see an example. Make sure to be at the root of the project in your terminal and type the following:
 
 ```
 python -m pdb main.py
@@ -650,7 +654,7 @@ Reach line `:8` and `s(tep)` into the `run()` method of the GameRunner class. Th
 (Pdb) b 17
 Breakpoint 4 at /Users/Development/pdb-tutorial/dicegame/runner.py:17
 ```
-This sets up the breakpoint, which has been given the number `4`, at the start of the loop inside the `answer()` method which is used to calculate the total values of the dice. Now, let's us use `commands` to print the value of the variable `total` when we hit this breakpoint. 
+This sets up the breakpoint, which has been given the number `4`, at the start of the loop inside the `answer()` method which is used to calculate the total values of the dice. Now, let's use `commands` to print the value of the variable `total` when we hit this breakpoint. 
 
 ```
 (Pdb) commands 4
@@ -661,14 +665,14 @@ We have now set up `commands` for breakpoint number 4 which will execute when we
 
 ```
 (Pdb) c
-[...] # You will have to guess a number
+[...]  # You will have to guess a number.
 The total value as of now is 0
 > /Users/Development/pdb-tutorial/dicegame/runner.py(17)answer()
 -> for die in self.dice:
 (Pdb)
 ```
 
-We see that out print statement executed upon reaching this breakpoint. Let's `c(ontinue)` again and see what happens.
+We see that our print statement was indeed executed upon reaching this breakpoint. Let's `c(ontinue)` again and see what happens.
 
 ```
 (Pdb) c
@@ -680,7 +684,7 @@ The total value as of now is 1
 ```
 The `commands` command executes upon reaching the breakpoint again. You can see how this might be useful especially during loops.
 
-### `pdb` Post Mortem
+### `pdb` Post-Mortem
 
 ```
 pdb.post_mortem(traceback=None)
@@ -691,11 +695,11 @@ pdb.pm()
     Enter post-mortem debugging of the traceback found in sys.last_traceback. 
 ```
 
-While both methods may look the same, `post_mortem() and pm()` differ by the traceback they are given. I commonly use `post_mortem()` in the `except` block.
+While both methods may look the same, `post_mortem()` and `pm()` differ by the traceback they are given. I commonly use `post_mortem()` in the `except` block.
 However, we will cover the `pm()` method since I find it to be a bit more powerful. Let's try and see how this works in practice.
 
-Open up the python REPL by typing `python` in your shell in the root of this project. From there, let's import the `main` method from the `main` module and import `pdb`
-as well. Play the game until the we get the exception after trying to type `Y` to continue the game.
+Open up the Python REPL by typing `python` in your shell in the root of this project. From there, let's import the `main` method from the `main` module and import `pdb`
+as well. Play the game until we get the exception after trying to type `Y` to continue the game.
 
 ```
 >>> import pdb
