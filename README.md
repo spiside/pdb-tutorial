@@ -211,6 +211,10 @@ What are you doing with your life.
 (Pdb) 
 ```
 
+**NB**: In Python 3.13 and above you may see that the program was paused on the line of the `pdb.set_trace()` command itself (line 8),
+and not on the line just following it (line 9 of `GameRunner.run()` as above). No worries, you can just proceed in a very similar way
+as explained below (with just an extra `n(ext)` command).
+
 There we go! We are now in the middle of the running program and we can start poking around. I think the first issue we should
 solve is the proper summation of the dice values.
 
