@@ -229,7 +229,7 @@ Taken directly from the `pdb` documentation, these are the five commands that, o
 without them.
 
 1. `l(ist)` - Displays 11 lines around the current line or continue the previous listing.
-2. `s(tep)` - Execute the current line, stop at the first possible occasion.
+2. `s(tep)` - Execute the current line, stop at the first possible occasion (stepping inside a function call if present).
 3. `n(ext)` - Continue execution until the next line in the current function is reached or it returns.
 4. `b(reak)` - Set a breakpoint (depending on the argument provided).
 5. `r(eturn)` - Continue execution until the current function returns.
