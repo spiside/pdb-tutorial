@@ -180,6 +180,8 @@ The methods [`set_trace()`](https://docs.python.org/3/library/pdb.html#pdb.set_t
 where the method was called. Let's use the `set_trace()` method for this tutorial since it is supported in all python versions. Let's try it now by opening up the `main.py` file and adding the breakpoint
 on line 8:
 
+**NB**: In Python 3.13 and above, the debugger stops *on* the line containing `set_trace()`/`breakpoint()` rather than on the line after it. The `->` in the outputs below will point one line higher than below.
+
 `file: main.py` 
 ```python
 from dicegame.runner import GameRunner
@@ -281,6 +283,8 @@ Let's try using `l` now. In your already open `pdb` prompt, type in `l` and look
  13         main()
 [EOF]
 ``` 
+
+**NB**: As described earlier, on Python 3.13 and above the debugger stops *on* the line containing `set_trace()`/`breakpoint()`. Press `n` to proceed to line 9, then `l` to reproduce the above output.
 
 If we want to see the whole file, we can call the list function with the range 1 to 13 like so:
 
