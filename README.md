@@ -730,6 +730,88 @@ before it crashed which will help you in your investigation.
 **NB**: You can also start the `main.py` script using `python -m pdb main.py` and `continue` until an exception is thrown. Python will automatically enter `post_mortem`
 mode at the uncaught exception.
 
+### Navigating the call stack - `u(p)`, `d(own)`, and `w(here)` commands
+
+Sometimes it can be very useful to navigate the current call stack at a given snapshot of the program execution, to investigate the code or the values of some key variables (while debugging in post-mortem mode for example, or after a given breakpoint). For that, you can find the following three commands useful:
+
+```
+u(p) [count]
+    Move the current frame count (default one) levels up in the
+    stack trace (to an older frame).
+
+d(own) [count]
+    Move the current frame count (default one) levels down in the
+    stack trace (to a newer frame).
+
+w(here) [count]
+    Print a stack trace. If count is not specified, print the full stack.
+    If count is 0, print the current frame entry. If count is positive,
+    print count entries from the most recent frame. If count is negative,
+    print -count entries from the least recent frame.
+    An arrow indicates the "current frame", which determines the
+    context of most commands.
+```
+
+For example, continuing from the previous section where you entered the post-mortem mode given the exception, and typing `w(here)`
+(to see where you are in the call stack - indicated by the arrow `>` below) and `ll` (to see the code) you will find yourself in the following situation:
+
+```
+(Pdb) w
+[...]
+  /Users/Development/pdb-tutorial/main.py(12)<module>()
+-> main()
+  /Users/Development/pdb-tutorial/main.py(8)main()
+-> GameRunner.run()
+  /Users/Development/pdb-tutorial/dicegame/runner.py(60)run()
+-> i_just_throw_an_exception()
+> /Users/Development/pdb-tutorial/dicegame/utils.py(11)i_just_throw_an_exception()
+-> raise UnnecessaryError("You actually called this function...")
+(Pdb) ll
+  5     def i_just_throw_an_exception():
+  6         value = 1
+  7         def some_inner_function():
+  8             value += 1
+  9  
+ 10         some_value = "I don't know what you were expecting"
+ 11  ->     raise UnnecessaryError("You actually called this function...")
+(Pdb)
+```
+
+But that doesn't help much on understanding the bug and why this function `i_just_throw_an_exception()` that raises the given
+exception was called. But if you move one frame `u(p)` in the call stack you can have a better view of the root of the
+problem (using `w(here)` again to double check that your current position indicated by `>` is indeed one frame above where it was before):
+
+```
+(Pdb) u
+> /Users/Development/pdb-tutorial/dicegame/runner.py(60)run()
+-> i_just_throw_an_exception()
+(Pdb) w
+[...]
+  /Users/Development/pdb-tutorial/main.py(12)<module>()
+-> main()
+  /Users/Development/pdb-tutorial/main.py(8)main()
+-> GameRunner.run()
+> /Users/Development/pdb-tutorial/dicegame/runner.py(60)run()
+-> i_just_throw_an_exception()
+  /Users/Development/pdb-tutorial/dicegame/utils.py(11)i_just_throw_an_exception()
+-> raise UnnecessaryError("You actually called this function...")
+(Pdb) ll
+ 21         @classmethod
+ 22         def run(cls):
+ [...]
+ 54  
+ 55                 prompt = input("Would you like to play again?[Y/n]: ")
+ 56  
+ 57                 if prompt == 'y' or prompt == '':
+ 58                     continue
+ 59                 else:
+ 60  ->                 i_just_throw_an_exception()
+(Pdb) 
+```
+
+Here, you can finally see why `i_just_throw_an_exception()` was called, while inspecting in pdb with `p(rint) prompt` the value of the `prompt`
+variable ('Y' here) that made the runtime enter that branch of the code.
+
 
 ## The End
 
